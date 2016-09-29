@@ -10,7 +10,6 @@ sys.setdefaultencoding(locale.getpreferredencoding())
 def load_data(filepath):
     json_data = open(filepath)
     data = json.load(json_data)
-
     return data
 
 
@@ -19,7 +18,6 @@ def get_biggest_bar(data):
     for num in data:
         if num["Cells"]["SeatsCount"] > big["Cells"]["SeatsCount"]:
             big = num
-
     return big
 
 
@@ -30,12 +28,13 @@ def get_smallest_bar(data):
             small = num
     return small
 
-def ortodrom(a_1, b_1, a_2, b_2):  # Расчет ортодромии
-    a_1 = math.radians(a_1)
-    a_2 = math.radians(a_2)
-    b_1 = math.radians(b_1)
-    b_2 = math.radians(b_2)
-    res = math.acos(math.sin(a_1)*math.sin(a_2)+math.cos(a_1)*math.cos(a_2)*math.cos(b_2 - b_1))
+def ortodrom(latitude_1, longitude_1, latitude_2, longitude_2):  # Расчет ортодромии
+    latitude_1 = math.radians(latitude_1)
+    latitude_2 = math.radians(latitude_2)
+    longitude_1 = math.radians(longitude_1)
+    longitude_2 = math.radians(longitude_2)
+    res = math.acos(math.sin(latitude_1)*math.sin(latitude_2)
+                    +math.cos(latitude_1)*math.cos(latitude_2)*math.cos(longitude_2 - longitude_1))
     return 111.7*res
 
 def get_closest_bar(data, longitude, latitude):
@@ -43,7 +42,6 @@ def get_closest_bar(data, longitude, latitude):
     nearest = data[0]
     near_ort = ortodrom(latitude, longitude, nearest["Cells"]["geoData"]["coordinates"][0],
                         nearest["Cells"]["geoData"]["coordinates"][1])
-
     for num in data:
         new_ort = ortodrom(latitude, longitude, num["Cells"]["geoData"]["coordinates"][0],
                            num["Cells"]["geoData"]["coordinates"][1])
