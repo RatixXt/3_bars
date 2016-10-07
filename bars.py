@@ -12,13 +12,7 @@ def load_data(filepath):
 
 
 def get_biggest_bar(data):
-    biggest_bar = data[0]
-    for bar in data:
-        if get_seats_count(bar) > get_seats_count(biggest_bar):
-            biggest_bar = bar
-
-    return biggest_bar
-
+    return max(data, key=lambda x: get_seats_count(x))
 
 def get_seats_count(list):
     return list["Cells"]["SeatsCount"]
@@ -29,12 +23,7 @@ def get_coordinates(list):
 
 
 def get_smallest_bar(data):
-    smallest_bar = data[0]
-    for bar in data:
-        if get_seats_count(bar) < get_seats_count(smallest_bar):
-            smallest_bar = bar
-    return smallest_bar
-
+    return min(data, key=lambda x: get_seats_count(x))
 
 def get_ort_distance(latitude_1, longitude_1, latitude_2, longitude_2):  # Расчет ортодромии
     latitude_1 = radians(latitude_1)
@@ -51,19 +40,7 @@ def get_ort_distance(latitude_1, longitude_1, latitude_2, longitude_2):  # Ра�
 
 def get_closest_bar(data, longitude, latitude):
 
-    closest_bar = data[0]
-    least_distance = get_ort_distance(latitude, longitude, get_coordinates(closest_bar)[0],
-                        get_coordinates(closest_bar)[1])
-
-    for bar in data:
-        new_distance = get_ort_distance(latitude, longitude, get_coordinates(bar)[1],
-                                        get_coordinates(bar)[0])
-
-        if new_distance < least_distance:
-            least_distance = new_distance
-            closest_bar = bar
-    return closest_bar
-
+    return min(data, key=lambda x: get_ort_distance(latitude, longitude, get_coordinates(x)[0], get_coordinates(x)[1]))
 
 if __name__ == '__main__':
 
